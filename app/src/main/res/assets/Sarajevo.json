@@ -1,0 +1,35 @@
+{
+    "ime_grada": "Sarajevo",
+    "geo_lokacija": "43°51′23″N 18°24′47″E",
+    "broj_hitne":"124",
+    "broj_vatrogasaca":"123",
+    "broj_centralne_policije":"122",
+    "znamenitosti": [
+        {
+            "ime_znamenitosti":"Sebilj",
+            "geo_lokacija":"43.859674°N 18.431218°E"
+        }
+    ],
+    "opcine": [
+        {
+            "ime_opcine":"Stari Grad",
+            "geo_lokacija":"43°52′N 18°26′E",
+            "broj_policije":"122"
+        }
+    ],
+    "brojevi_Taksija": [
+        {
+            "ime_taksija":"Sarajevo Taksi",
+            "geo_lokacija":"",
+            "broj_taksija":[
+                "1515",
+                "+387 33 660 666",
+                "+387 33 660 970"
+            ],
+            "broj_taksija_viber":"+387 61 15 15 15",
+            "broj_taksija_WhatsApp":"+387 61 15 15 15",
+            "email":"info@sarajevotaxi.com",
+            "adresa_udruzenja":"Azize Šaćirbegović 96 71 000 Sarajevo, Bosna i Hercegovina"
+        }
+    ]
+}
