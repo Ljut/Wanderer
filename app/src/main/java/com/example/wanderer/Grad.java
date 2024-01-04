@@ -1,22 +1,35 @@
 package com.example.wanderer;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
-
+@Entity
 public class Grad {
-	String ime_grada;
-	String geo_lokacija;
-	String broj_hitne;
-	String broj_vatrogasaca;
-	String broj_centralne_policije;
-	Znamenitost[] znamenitosti;
-	Opcina[] opcine;
-	Taksi[] taksiji;
+	@PrimaryKey
+	public int uid;
 
-	public Grad(String path_to_grad) {
+	@ColumnInfo(name = "ime_grada")
+	public String ime_grada;
+	@ColumnInfo(name = "geo_lokacija")
+	public String geo_lokacija;
+	@ColumnInfo(name = "broj_hitne")
+	public int broj_hitne;
+	@ColumnInfo(name = "broj_vatrogasaca")
+	public int broj_vatrogasaca;
+	@ColumnInfo(name = "broj_centralne_policije")
+	public int broj_centralne_policije;
+
+	/*Znamenitost[] znamenitosti;
+	Opcina[] opcine;
+	Taksi[] taksiji;*/
+
+	/*public Grad(String path_to_grad) {
 		try {
 			JSONObject jsonObject = new JSONObject(path_to_grad);
 			this.ime_grada = jsonObject.getString("ime_grada");
@@ -51,6 +64,6 @@ public class Grad {
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
-	}
+	}*/
 	
 }

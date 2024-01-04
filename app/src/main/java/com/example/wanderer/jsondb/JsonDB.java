@@ -1,16 +1,15 @@
-package com.example.wanderer;
+package com.example.wanderer.jsondb;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import android.app.DownloadManager;
 import android.content.Context;
+
+import com.example.wanderer.FileDownloadTask;
 
 import java.io.File;
 
 public class JsonDB {
-    static String gradovi_folder;
-    static String JsonDB_path;
-    static String gradovi = "gradovi.json";
+    String gradovi_folder;
+    String JsonDB_path;
+    String gradovi = "gradovi.json";
 
 
     public JsonDB() {
@@ -28,19 +27,19 @@ public class JsonDB {
 
     public  JsonDB(Context context, String gradovi_folder) {
         JsonDB_path = String.valueOf(context.getFilesDir());
-        JsonDB.gradovi_folder = gradovi_folder;
+        this.gradovi_folder = gradovi_folder;
     }
 
-    public static String getGradovi_folder() {
-        return gradovi_folder;
+    public String getGradovi_folder() {
+        return this.gradovi_folder;
     }
-    public static String getGradovi_folder_absolute() {
-        return JsonDB_path+gradovi_folder;
+    public String getGradovi_folder_absolute() {
+        return JsonDB_path+this.gradovi_folder;
     }
 
-    public static void createFolderInInternalStorage(Context context) {
+    public void createFolderInInternalStorage(Context context) {
         File db_internal = context.getFilesDir();
-        File db_gradovi = new File(db_internal, getGradovi_folder());
+        File db_gradovi = new File(db_internal, this.getGradovi_folder());
 
         if (!db_gradovi.exists()) {
             boolean isDirectoryCreated = db_gradovi.mkdir();
@@ -62,8 +61,9 @@ public class JsonDB {
             DownloadJson(context, gradovi);
         }*/
     }
+    public static String jsonString = "";
+    public static String getGradIfNotExists(Context context, String fileGrada) {
 
-    public static void getGradIfNotExists(Context context, String fileGrada) {
         if (!new File(context.getFilesDir().getAbsolutePath()+"/"+fileGrada).exists()) {
             System.out.println(context.getFilesDir().getAbsolutePath()+"/"+fileGrada);
             //DownloadJson(context, fileGrada);
@@ -75,6 +75,8 @@ public class JsonDB {
                         // File downloaded successfully
                         // Perform any actions you need after the download is complete
                         System.out.println("USPIO DOWNLOADATI Sarajevo.json");
+                        jsonString= JsonFileReader.readJsonFromAssets(context, context.getFilesDir().getAbsolutePath()+"/"+fileGrada);
+
                     } else {
                         // Handle the download failure
                         System.out.println("NISAM USPIO DOWNLOADATI Sarajevo.json");
@@ -83,7 +85,11 @@ public class JsonDB {
             });
 
             downloadTask.execute("https://raw.githubusercontent.com/Ljut/Gradovi_za_Wanderer/main/"+fileGrada, context.getFilesDir().getAbsolutePath()+"/"+fileGrada);
+
+        } else {
+
         }
+        return jsonString;
     }
 
     /*private static void DownloadJson(Context context, String file) {
