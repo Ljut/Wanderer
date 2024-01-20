@@ -12,8 +12,11 @@ public interface GradDao {
     @Query("SELECT * FROM Grad")
     List<Grad> getAll();
 
-    @Query("SELECT * FROM Grad WHERE uid IN (:gradIds)")
-    List<Grad> loadAllByIds(int[] gradIds);
+    @Query("SELECT * FROM Grad WHERE ime_grada == :gradName LIMIT 1")
+    List<Grad> loadAllByIds(int[] gradName);
+
+    @Query("SELECT * FROM Grad WHERE ime_grada == :gradName LIMIT 1")
+    List<Grad> getByGradName(String gradName);
 
     /*@Query("SELECT * FROM Grad WHERE ime_grada LIKE :first AND " +
             "last_name LIKE :last LIMIT 1")

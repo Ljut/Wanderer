@@ -5,6 +5,8 @@ import androidx.room.Room;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 //import com.example.wanderer.jsondb.JsonDB;
@@ -12,21 +14,37 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
     static private boolean firstRun=false;
-
+    TextView textView;
+    Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        textView = findViewById(R.id.autori);
+        button = findViewById(R.id.button);
         Context context = this;
         System.out.println("test");
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "Gradovi").build();
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GradDao gradDao = db.gradDao();
+                List<Grad> grad = gradDao.getByGradName("Sarajevo");
+                if(grad.isEmpty()) {
+
+                }
+
+            }
+        });
         if(!firstRun) {
 
             /*JsonDB jsonDB = new JsonDB();
