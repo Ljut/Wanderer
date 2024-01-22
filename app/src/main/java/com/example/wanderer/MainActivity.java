@@ -7,6 +7,8 @@ import androidx.room.Room;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,9 +21,14 @@ import android.widget.Toast;
 
 //import com.example.wanderer.jsondb.JsonDB;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,11 +36,12 @@ import org.json.JSONObject;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener, LocationListener {
 
-    static private boolean firstRun=false;
     TextView textView;
-    Button button;
+    Location myLocation;
+    FusedLocationProviderClient fusedLocationProviderClient;
+    private static final int REQUEST_CODE = 101;
     private GoogleMap gMap;
 
     @Override
@@ -41,23 +49,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //textView = findViewById(R.id.autori);
-        //button = findViewById(R.id.button);
+        textView = findViewById(R.id.textView);
         Context context = this;
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         //assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
+        //Imam li dozvolu da koristim lokaciju
+        //if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)){}
 
+        getLocation();
         /*if(!checkLocationPermission()) {
             return ContextCompat.checkSelfPermission(
                     this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         }*/
 
-        System.out.println("test");
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "Gradovi").build();
+
 
         /*button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });*/
-        if(!firstRun) {
+
 
             /*JsonDB jsonDB = new JsonDB();
             jsonDB.createFolderInInternalStorage(context);
@@ -80,9 +88,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Grad Sarajevo = new Grad("Sarajevo.json");
             // private Korisnik korisnik;
             //Grad grad = new Grad(gradovi);*/
-            firstRun=true;
 
-        }
+
+
     }
 
     private boolean checkLocationPermission() {
@@ -92,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
+        this.gMap = googleMap;
+        LatLng sarajevo = new LatLng(43.8486, 18.3564);
+        this.gMap.addMarker(new MarkerOptions().position(sarajevo).title("Dobrodošli u Sarajevo"));
+        this.gMap.moveCamera(CameraUpdateFactory.newLatLng(sarajevo));
     }
 
     public void showPopup(View v) {
@@ -118,5 +130,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return false;
         }
 
+    }
+    public void getLocation() {
+
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        LocationListener.super.onStatusChanged(provider, status, extras);
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+        LocationListener.super.onProviderEnabled(provider);
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+        LocationListener.super.onProviderDisabled(provider);
     }
 }
