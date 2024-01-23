@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Wanderer</string>
+
+    <!-- AKO BUDEMO DODAVALI JOS GRADOVA TREBAMO I JOS OPSTINA -->
+    <string-array name="gradovi_array">
+        <item>Sarajevo</item>
+    </string-array>
+    <string-array name="opstine_array">
+        <item>Stari Grad</item>
+        <item>Centar</item>
+        <item>Novo Sarajevo</item>
+        <item>Novi Grad</item>
+        <item>Ilidža</item>
+    </string-array>
 </resources>

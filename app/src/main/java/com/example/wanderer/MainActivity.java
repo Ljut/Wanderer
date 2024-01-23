@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         textView = findViewById(R.id.textView);
         Context context = this;
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapMain);
         //assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
@@ -119,10 +120,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case(R.id.settings):
                 System.out.println("settings");
                     // metoda za settings
+                startSettings();
                 return true;
             case(R.id.exit):
                 Toast.makeText(this, "exit", Toast.LENGTH_SHORT);
                 System.out.println("exit");
+                finish();
                     //metoda za izlaz iz app
                 return true;
             default:
@@ -153,5 +156,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onProviderDisabled(@NonNull String provider) {
         LocationListener.super.onProviderDisabled(provider);
+    }
+
+    private void startSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
