@@ -77,7 +77,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         LatLng sarajevo = new LatLng(43.8486, 18.3564);
         this.gMap.addMarker(new MarkerOptions().position(sarajevo).title("Dobrodošli u Sarajevo"));
         this.gMap.moveCamera(CameraUpdateFactory.newLatLng(sarajevo));*/
-        LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation.getLatitude());
+        LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("JA!!");
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
