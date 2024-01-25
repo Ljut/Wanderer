@@ -13,19 +13,17 @@ public class Znamenitost {
 	public int uid;
 	@ColumnInfo(name = "id_grada")
 	public int id_grada;
+	@ColumnInfo(name = "id_opcine")
+	public int id_opcine;
 	@ColumnInfo(name = "ime_znamenitosti")
 	public String ime_znamenitosti;
-	@ColumnInfo(name = "geo_lokacija")
-	public String geo_lokacija;
+	@ColumnInfo(name = "latitude")
+	public Double latitude;
+	@ColumnInfo(name = "longtitude")
+	public Double longtitude;
+	@ColumnInfo(name = "extra")
+	public String extra;
 	
 	
-	/*public Znamenitost(String ime_znamenitosti, String geo_lokacija) {
-		this.ime_znamenitosti=ime_znamenitosti;
-		this.geo_lokacija=geo_lokacija;
-	}
 
-	public Znamenitost(JSONObject znamenitost) throws JSONException {
-		this.ime_znamenitosti=znamenitost.getString("ime_znamenitosti");
-		this.geo_lokacija=znamenitost.getString("geo_lokacija");
-	}*/
 }

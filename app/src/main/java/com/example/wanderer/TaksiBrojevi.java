@@ -12,4 +12,6 @@ public class TaksiBrojevi {
     public int id_taksija;
     @ColumnInfo(name = "broj_taksija")
     public String broj_taksija;
+    @ColumnInfo(name = "extra")
+    public String extra;
 }

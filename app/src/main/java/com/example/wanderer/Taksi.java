@@ -13,8 +13,12 @@ public class Taksi {
 	public int uid;
 	@ColumnInfo(name = "ime_taksija")
 	String ime_taksija;
-	@ColumnInfo(name = "geo_lokacija")
-	String geo_lokacija;
+	@ColumnInfo(name = "id_grada")
+	public int id_grada;
+	@ColumnInfo(name = "latitude")
+	public Double latitude;
+	@ColumnInfo(name = "longtitude")
+	public Double longtitude;
 
 	//@ColumnInfo(name = "ime_grada")
 	//String[] broj_taksija;
@@ -26,6 +30,8 @@ public class Taksi {
 	String email;
 	@ColumnInfo(name = "adresa_udruzenja")
 	String adresa_udruzenja;
+	@ColumnInfo(name = "extra")
+	public String extra;
 	
 	/*public Taksi() {
 		

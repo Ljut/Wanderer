@@ -16,14 +16,16 @@ public class Grad {
 
 	@ColumnInfo(name = "ime_grada")
 	public String ime_grada;
-	@ColumnInfo(name = "geo_lokacija")
-	public String geo_lokacija;
+	@ColumnInfo(name = "latitude")
+	public Double latitude;
+	@ColumnInfo(name = "longtitude")
+	public Double longtitude;
 	@ColumnInfo(name = "broj_hitne")
-	public int broj_hitne;
+	public String broj_hitne;
 	@ColumnInfo(name = "broj_vatrogasaca")
-	public int broj_vatrogasaca;
+	public String broj_vatrogasaca;
 	@ColumnInfo(name = "broj_centralne_policije")
-	public int broj_centralne_policije;
+	public String broj_centralne_policije;
 
 	/*Znamenitost[] znamenitosti;
 	Opcina[] opcine;
