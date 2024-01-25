@@ -9,10 +9,10 @@ import java.util.List;
 
 @Dao
 public interface OpcinaDao {
-    @Query("SELECT * FROM Opcina")
+    @Query("SELECT * FROM Opcine")
     List<Opcina> getAll();
 
-    @Query("SELECT * FROM Opcina WHERE uid IN (:opcinaIds)")
+    @Query("SELECT * FROM Opcine WHERE id IN (:opcinaIds)")
     List<Opcina> loadAllByIds(int[] opcinaIds);
 
     /*@Query("SELECT * FROM Grad WHERE ime_grada LIKE :first AND " +

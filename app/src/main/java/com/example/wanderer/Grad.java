@@ -9,17 +9,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
-@Entity
+@Entity(tableName = "grad")
 public class Grad {
 	@PrimaryKey
-	public int uid;
+	public int id;
 
 	@ColumnInfo(name = "ime_grada")
 	public String ime_grada;
 	@ColumnInfo(name = "latitude")
 	public Double latitude;
-	@ColumnInfo(name = "longtitude")
-	public Double longtitude;
+	@ColumnInfo(name = "longitude")
+	public Double longitude;
 	@ColumnInfo(name = "broj_hitne")
 	public String broj_hitne;
 	@ColumnInfo(name = "broj_vatrogasaca")

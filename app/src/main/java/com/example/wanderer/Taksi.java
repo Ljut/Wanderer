@@ -2,23 +2,28 @@ package com.example.wanderer;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-@Entity
+@Entity(foreignKeys = {@ForeignKey(
+		entity = Grad.class,
+		parentColumns = "id",
+		childColumns = "id_grada",
+		onDelete = ForeignKey.CASCADE)})
 public class Taksi {
 	@PrimaryKey
-	public int uid;
+	public int id;
 	@ColumnInfo(name = "ime_taksija")
 	String ime_taksija;
 	@ColumnInfo(name = "id_grada")
 	public int id_grada;
 	@ColumnInfo(name = "latitude")
 	public Double latitude;
-	@ColumnInfo(name = "longtitude")
-	public Double longtitude;
+	@ColumnInfo(name = "longitude")
+	public Double longitude;
 
 	//@ColumnInfo(name = "ime_grada")
 	//String[] broj_taksija;

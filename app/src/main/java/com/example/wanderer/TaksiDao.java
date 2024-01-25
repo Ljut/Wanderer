@@ -12,7 +12,7 @@ public interface TaksiDao {
     @Query("SELECT * FROM Taksi")
     List<Taksi> getAll();
 
-    @Query("SELECT * FROM Taksi WHERE uid IN (:taksiIds)")
+    @Query("SELECT * FROM Taksi WHERE id IN (:taksiIds)")
     List<Taksi> loadAllByIds(int[] taksiIds);
 
     /*@Query("SELECT * FROM Grad WHERE ime_grada LIKE :first AND " +

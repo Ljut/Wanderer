@@ -12,7 +12,7 @@ public interface ZnamenitostDao {
     @Query("SELECT * FROM Znamenitost")
     List<Znamenitost> getAll();
 
-    @Query("SELECT * FROM Znamenitost WHERE uid IN (:znamenitostIds)")
+    @Query("SELECT * FROM Znamenitost WHERE id IN (:znamenitostIds)")
     List<Znamenitost> loadAllByIds(int[] znamenitostIds);
 
     /*@Query("SELECT * FROM Grad WHERE ime_grada LIKE :first AND " +
