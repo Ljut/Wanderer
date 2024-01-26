@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_znamenitosti" android:title="Znamenitosti"/>
+    <item android:id="@+id/menu_policija" android:title="Policija"/>
+    <item android:id="@+id/menu_vatrogasci" android:title="Vatrogasci"/>
+    <item android:id="@+id/menu_hitna" android:title="Hitna"/>
+    <item android:id="@+id/menu_taxi" android:title="Taxi"/>
+    <item android:id="@+id/menu_opstine" android:title="Opštine"/>
+</menu>

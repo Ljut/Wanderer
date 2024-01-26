@@ -291,4 +291,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
+    public void showCategoryMenu(View v) {
+        PopupMenu categoryPopup = new PopupMenu(this, v);
+        categoryPopup.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menu_policija:
+                case R.id.menu_vatrogasci:
+                case R.id.menu_hitna:
+                case R.id.menu_taxi:
+                    showInformationDialog(item.getTitle().toString());
+                    return true;
+                // nisam se peglao sa ostalim kategorijama, dajem ti cast
+                default:
+                    return false;
+            }
+        });
+        categoryPopup.inflate(R.menu.category_menu);
+        categoryPopup.show();
+    }
+
+    private void showInformationDialog(String category) {
+        InformationDialogFragment dialog = InformationDialogFragment.newInstance(category);
+        dialog.show(getSupportFragmentManager(), "InformationDialog");
+    }
 }

@@ -25,15 +25,16 @@
         android:onClick="showPopup"
         app:srcCompat="@drawable/baseline_more_vert_24" />
 
+    <!-- Dodaj ljepse dugme i stavi da je pored search menu-a !!!!!!!!!!! -->
+    <Button
+        android:id="@+id/button_show_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DODAJ LJEPSE DUGME"
+        android:onClick="showCategoryMenu"
+        android:layout_centerInParent="true"/>
 
 
-    <!--<View
-        android:id="@+id/lista_sugestija_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="@drawable/rectangle"
-        /> -->
     <ListView
         android:id="@+id/lista_sugestija"
         android:layout_width="match_parent"
@@ -42,11 +43,6 @@
         android:background="@drawable/rectangle"
         />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="53dp" />
+
 
 </RelativeLayout>
