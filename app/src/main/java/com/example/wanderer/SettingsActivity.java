@@ -22,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
         Spinner gradoviSpinner = findViewById(R.id.gradoviSpinner);
         ArrayAdapter<CharSequence> gradoviAdapter = ArrayAdapter.createFromResource(this,
                 R.array.gradovi_array, android.R.layout.simple_spinner_item);
+                //SplashScreen.id_grada = ;
         gradoviAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gradoviSpinner.setAdapter(gradoviAdapter);
 

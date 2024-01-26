@@ -299,6 +299,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 case R.id.menu_policija:
                 case R.id.menu_vatrogasci:
                 case R.id.menu_hitna:
+                    Log.d("Hitna","Hitna\n"+SplashScreen.lista_gradova.get(SplashScreen.id_grada).broj_hitne);
                 case R.id.menu_taxi:
                     showInformationDialog(item.getTitle().toString());
                     return true;

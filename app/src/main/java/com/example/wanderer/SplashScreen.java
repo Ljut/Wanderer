@@ -15,6 +15,7 @@ public class SplashScreen extends AppCompatActivity {
     public static List<Znamenitost> lista_znamenitosti;
     public static List<Grad> lista_gradova;
     public static List<Opcina> lista_opcina;
+    public static int id_grada=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
