@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Wanderer</string>
+    <string name="znamenitost">znamenitost</string>
+    <string name="opcina">opcina</string>
 
     <!-- AKO BUDEMO DODAVALI JOS GRADOVA TREBAMO I JOS OPSTINA -->
     <string-array name="gradovi_array">

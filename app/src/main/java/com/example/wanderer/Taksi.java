@@ -8,11 +8,11 @@ import androidx.room.PrimaryKey;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-@Entity(foreignKeys = {@ForeignKey(
+@Entity(tableName = "taksi")/*(foreignKeys = {@ForeignKey(
 		entity = Grad.class,
 		parentColumns = "id",
 		childColumns = "id_grada",
-		onDelete = ForeignKey.CASCADE)})
+		onDelete = ForeignKey.CASCADE)})*/
 public class Taksi {
 	@PrimaryKey
 	public int id;
@@ -20,21 +20,8 @@ public class Taksi {
 	String ime_taksija;
 	@ColumnInfo(name = "id_grada")
 	public int id_grada;
-	@ColumnInfo(name = "latitude")
-	public Double latitude;
-	@ColumnInfo(name = "longitude")
-	public Double longitude;
-
-	//@ColumnInfo(name = "ime_grada")
-	//String[] broj_taksija;
-	@ColumnInfo(name = "broj_taksija_viber")
-	String broj_taksija_viber;
-	@ColumnInfo(name = "broj_taksija_WhatsApp")
-	String broj_taksija_WhatsApp;
-	@ColumnInfo(name = "email")
-	String email;
-	@ColumnInfo(name = "adresa_udruzenja")
-	String adresa_udruzenja;
+	@ColumnInfo(name = "broj_telefona")
+	String broj_telefona;
 	@ColumnInfo(name = "extra")
 	public String extra;
 	

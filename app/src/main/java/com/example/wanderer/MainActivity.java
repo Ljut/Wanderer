@@ -34,6 +34,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
@@ -41,11 +42,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener, LocationListener {
+
 
 
     ListView listaSugestija;
@@ -53,17 +57,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Location myLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
-    private static String kategorija="Znamenitost";
+    private static String kategorija="ZNAMENITOSTI";
     private GoogleMap gMap;
 
-    private GradDao gradDao;
-    private OpcinaDao opcinaDao;
-    private ZnamenitostDao znamenitostDao;
-
     private List<String> sugestije;
-    private List<Znamenitost> znamenitosti;
     Map<String, LatLng> mapZnamenitosti;
-    private SearchView searchView;
+    Map<String, LatLng> mapOpcina;
+    Set<Marker> setMarkeraZnamenitosti;
+    Set<Marker> setMarkeraOpcina;
+    Set<Marker> setMarkera;
+
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,14 +97,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         sugestije = new ArrayList<>();
         mapZnamenitosti = new HashMap<>();
+        mapOpcina = new HashMap<>();
         for(int i=0;i<SplashScreen.lista_znamenitosti.size();i++) {
-            sugestije.add(SplashScreen.lista_znamenitosti.get(i).ime_znamenitosti);
+            //sugestije.add(SplashScreen.lista_znamenitosti.get(i).ime_znamenitosti);
             mapZnamenitosti.put(SplashScreen.lista_znamenitosti.get(i).ime_znamenitosti,new LatLng(SplashScreen.lista_znamenitosti.get(i).latitude,SplashScreen.lista_znamenitosti.get(i).longitude));
+        }
+        for(Opcina opcina : SplashScreen.lista_opcina) {
+            mapOpcina.put(opcina.ime_opcine,new LatLng(opcina.latitude,opcina.longitude));
         }
 
         listaSugestija = findViewById(R.id.lista_sugestija);
+        if(kategorija=="ZNAMENITOSTI") {
+            for(int i=0;i<SplashScreen.lista_znamenitosti.size();i++) {
+                sugestije.add(SplashScreen.lista_znamenitosti.get(i).ime_znamenitosti);
+            }
+        } else if (kategorija=="OPCINE") {
+            for(int i=0;i<SplashScreen.lista_opcina.size();i++) {
+                sugestije.add(SplashScreen.lista_opcina.get(i).ime_opcine);
+            }
+        }
         sugestijeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sugestije);
-
         listaSugestija.setAdapter(sugestijeAdapter);
         Context context = this;
 
@@ -125,8 +141,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Handle item click here
-                String selectedItem = (String) parent.getItemAtPosition(position);
-                Toast.makeText(MainActivity.this, "Clicked item: " + selectedItem, Toast.LENGTH_SHORT).show();
+                String imeLokacije = (String) parent.getItemAtPosition(position);
+                Toast.makeText(MainActivity.this, "Clicked item: " + imeLokacije, Toast.LENGTH_SHORT).show();
+                LatLng lokacija = null;
+                Marker marker = null;
+                if (kategorija == "ZNAMENITOSTI") {
+                    lokacija = mapZnamenitosti.get(imeLokacije);
+                    for(Marker znamenitost : setMarkeraZnamenitosti) {
+                        if (znamenitost.getTitle().equals(imeLokacije)) {
+                            marker = znamenitost;
+                        }
+                    }
+                } else if (kategorija == "OPCINE") {
+                    lokacija = mapOpcina.get(imeLokacije);
+                    for(Marker opcina : setMarkeraZnamenitosti) {
+                        if (opcina.getTitle().equals(imeLokacije)) {
+                            marker = opcina;
+                        }
+                    }
+                }
+                /*if (marker != null) {
+                    marker.showInfoWindow();
+                }*/
+                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lokacija, 16));
+                //SearchView searchView = findViewById(R.id.search);
+                //searchView.setQuery("", false);
+                searchView.setIconified(true);
+                marker.showInfoWindow();
+                if (marker != null) {
+                    marker.showInfoWindow();
+                }
             }
         });
 
@@ -152,12 +196,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
+        setMarkeraZnamenitosti = new HashSet<>();
+        setMarkeraOpcina = new HashSet<>();
         this.gMap = googleMap;
         LatLng sarajevo = new LatLng(43.8486, 18.3564);
         //this.gMap.addMarker(new MarkerOptions().position(sarajevo).title("Dobrodošli u Sarajevo"));
         //this.gMap.addMarker(new MarkerOptions().position(new LatLng(43.8483,18.3567)).title("Dobrodošli Negdje"));
         for(Znamenitost znamenitost : SplashScreen.lista_znamenitosti) {
-            this.gMap.addMarker(new MarkerOptions().position(new LatLng(znamenitost.latitude,znamenitost.longitude)).title(znamenitost.ime_znamenitosti));
+            setMarkeraZnamenitosti.add(this.gMap.addMarker(new MarkerOptions().position(new LatLng(znamenitost.latitude,znamenitost.longitude)).title(znamenitost.ime_znamenitosti)));
         }
         //this.gMap.animateCamera(CameraUpdateFactory.newLatLng(sarajevo));
         //this.gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sarajevo,10));
@@ -176,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.other_options_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Koja vas lokacija zanima");
         /**/
 
@@ -197,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 for(Znamenitost znamenitost : SplashScreen.lista_znamenitosti) {
-                    gMap.addMarker(new MarkerOptions().position(new LatLng(znamenitost.latitude,znamenitost.longitude)).title(znamenitost.ime_znamenitosti));
+                    setMarkeraZnamenitosti.add(gMap.addMarker(new MarkerOptions().position(new LatLng(znamenitost.latitude,znamenitost.longitude)).title(znamenitost.ime_znamenitosti)));
                 }
             }
         });
@@ -205,6 +251,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public boolean onQueryTextSubmit(String query) {
 
+                String imeLokacije = "";
+                Marker marker = null;
+                if (sugestijeAdapter != null && sugestijeAdapter.getCount() > 0)
+                    imeLokacije = sugestijeAdapter.getItem(0);
+                LatLng lokacija = new LatLng(0, 0);
+                if (kategorija == "ZNAMENITOSTI") {
+                    lokacija = mapZnamenitosti.get(imeLokacije);
+                    for(Marker znamenitost : setMarkeraZnamenitosti) {
+                        if (znamenitost.getTitle().equals(imeLokacije)) {
+                            marker = znamenitost;
+                        }
+                    }
+                } else if (kategorija == "OPCINE") {
+                    lokacija = mapOpcina.get(imeLokacije);
+                    for(Marker opcina : setMarkeraZnamenitosti) {
+                        if (opcina.getTitle().equals(imeLokacije)) {
+                            marker = opcina;
+                        }
+                    }
+                }
+                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lokacija, 16));
+
+                if (marker != null) {
+                    marker.showInfoWindow();
+                }
                 return false;
             }
 
@@ -228,7 +299,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 for (String item : sugestije) {
                     if (item.toLowerCase().contains(query.toLowerCase())) {
                         //filteredList.add(item);
-                        gMap.addMarker(new MarkerOptions().position(mapZnamenitosti.get(item)).title(item));
+                        if(kategorija=="ZNAMENITOSTI") {
+                           setMarkeraZnamenitosti.add(gMap.addMarker(new MarkerOptions().position(mapZnamenitosti.get(item)).title(item)));
+                        } else if (kategorija=="OPCINE") {
+                            setMarkeraOpcina.add(gMap.addMarker(new MarkerOptions().position(mapOpcina.get(item)).title(item)));
+                        }
                     }
                 }
                 /*sugestijeAdapter.
@@ -297,11 +372,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         categoryPopup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_policija:
+                    return true;
                 case R.id.menu_vatrogasci:
+                    return true;
                 case R.id.menu_hitna:
                     Log.d("Hitna","Hitna\n"+SplashScreen.lista_gradova.get(SplashScreen.id_grada).broj_hitne);
+                    return true;
                 case R.id.menu_taxi:
+                    Log.d("jesam li usao iza hitne","da");
                     showInformationDialog(item.getTitle().toString());
+                    return true;
+                case R.id.menu_znamenitosti:
+                    kategorija="ZNAMENITOSTI";
+                    sugestije.clear();
+                    for(int i=0;i<SplashScreen.lista_znamenitosti.size();i++) {
+                        sugestije.add(SplashScreen.lista_znamenitosti.get(i).ime_znamenitosti);
+                    }
+                    gMap.clear();
+                    for(String znamenitost : sugestije)
+                        setMarkeraZnamenitosti.add(gMap.addMarker(new MarkerOptions().position(mapZnamenitosti.get(znamenitost)).title(znamenitost)));
+                    return true;
+                case R.id.menu_opstine:
+                    kategorija="OPCINE";
+                    sugestije.clear();
+                    Log.d("398",kategorija);
+                    for(int i=0;i<SplashScreen.lista_opcina.size();i++) {
+                        sugestije.add(SplashScreen.lista_opcina.get(i).ime_opcine);
+                    }
+                    gMap.clear();
+                    for(String opcina : sugestije)
+                        setMarkeraOpcina.add(gMap.addMarker(new MarkerOptions().position(mapOpcina.get(opcina)).title(opcina)));
                     return true;
                 // nisam se peglao sa ostalim kategorijama, dajem ti cast
                 default:

@@ -15,6 +15,7 @@ public class SplashScreen extends AppCompatActivity {
     public static List<Znamenitost> lista_znamenitosti;
     public static List<Grad> lista_gradova;
     public static List<Opcina> lista_opcina;
+    public static List<Taksi> lista_taksija;
     public static int id_grada=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +51,17 @@ public class SplashScreen extends AppCompatActivity {
         GradDao gradDao = AppDatabase.database.gradDao();
         OpcinaDao opcinaDao = AppDatabase.database.opcinaDao();
         ZnamenitostDao znamenitostDao = AppDatabase.database.znamenitostDao();
+        TaksiDao taksiDao = AppDatabase.database.taksiDao();
         System.out.println("deklarisao ZnamenitostDao dao");
         lista_znamenitosti = znamenitostDao.getAll();//dao.getAll();
         lista_gradova = gradDao.getAll();
         lista_opcina = opcinaDao.getAll();
+        lista_taksija = taksiDao.getAll();
 
         Log.d("znamenitosti u bazi","broj znamenitosti u bazi je 40/"+lista_znamenitosti.size());
         Log.d("opcine u bazi","broj opcina u bazi je 5/"+lista_opcina.size());
         Log.d("gradovi u bazi","broj gradova u bazi je 1/"+lista_gradova.size());
+        Log.d("taksiji u bazi","broj taksija u bazi je 6/"+lista_taksija.size());
         for(Znamenitost znamenitost : lista_znamenitosti) {
             Log.d("lista_znamnitosti",znamenitost.ime_znamenitosti);
         }

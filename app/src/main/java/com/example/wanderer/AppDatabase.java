@@ -17,13 +17,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-@Database(entities = {Grad.class, Opcina.class, Znamenitost.class, Taksi.class, TaksiBrojevi.class}, version = 1, exportSchema = true)
+@Database(entities = {Grad.class, Opcina.class, Znamenitost.class, Taksi.class}, version = 1, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract GradDao gradDao();
     public abstract OpcinaDao opcinaDao();
     public abstract ZnamenitostDao znamenitostDao();
     public abstract TaksiDao taksiDao();
-    public abstract TaksiBrojeviDao taksiBrojeviDao();
+
 
     private static final String DATABASE_NAME = "gradovi.db";
 
