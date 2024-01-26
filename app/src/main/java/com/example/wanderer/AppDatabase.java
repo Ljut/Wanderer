@@ -27,7 +27,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "gradovi.db";
 
-    //private static AppDatabase instance;
+    public static AppDatabase database;
 
 
 

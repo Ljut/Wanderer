@@ -7,16 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /> -->
+
+
     <fragment
         android:id="@+id/mapMain"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -25,12 +25,26 @@
         android:onClick="showPopup"
         app:srcCompat="@drawable/baseline_more_vert_24" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+
+
+    <View
+        android:id="@+id/lista_sugestija_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@drawable/rectangle"/>
+    <ListView
+        android:id="@+id/lista_sugestija"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageButton"
-        android:layout_marginTop="21dp"
-        android:text="TextView" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="53dp" />
 
 </RelativeLayout>
