@@ -3,9 +3,11 @@ package com.example.wanderer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,14 +30,18 @@ import android.widget.Toast;
 //import com.example.wanderer.jsondb.JsonDB;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,13 +56,15 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener, LocationListener {
 
-
+    public static String mojGrad=SplashScreen.lista_gradova.get(0).ime_grada;
+    public static String mojaOpcina=SplashScreen.lista_opcina.get(0).ime_opcine;
 
     ListView listaSugestija;
     ArrayAdapter<String> sugestijeAdapter;
     Location myLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
+
     private static String kategorija="ZNAMENITOSTI";
     private GoogleMap gMap;
 
@@ -65,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Map<String, LatLng> mapOpcina;
     Set<Marker> setMarkeraZnamenitosti;
     Set<Marker> setMarkeraOpcina;
-    Set<Marker> setMarkera;
+
 
     SearchView searchView;
 
@@ -122,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //searchView = findViewById(R.id.search);
 
-        Grad grad;
+
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapMain);
@@ -132,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Imam li dozvolu da koristim lokaciju
         //if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)){}
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLocation();
 
 
@@ -338,7 +347,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
     public void getLocation() {
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+            Log.d("53","Tu sam");
+            return;
+        } else {
+            Log.d("55","Tu sam");
+            /*MarkerOptions markerOptions = new MarkerOptions()
+                    .position(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()))
+                    .title("Marker Title")
+                    .snippet("Marker Snippet")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            gMap.addMarker(markerOptions);*/
+            //LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+            //Log.d("Moja lokacija 78",latLng.latitude+" "+latLng.longitude);
+            Toast.makeText(this,"You woun't see your position in corelation to other locations", Toast.LENGTH_SHORT);
+        }
 
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if(location != null) {
+                    myLocation = location;
+                    SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+                    assert supportMapFragment != null;
+                    supportMapFragment.getMapAsync(MainActivity.this);
+                    Log.d("71",myLocation.getLatitude()+" "+myLocation.getLongitude());
+                }
+            }
+        });
     }
 
     @Override

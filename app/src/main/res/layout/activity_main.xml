@@ -30,9 +30,11 @@
         android:id="@+id/button_show_categories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DODAJ LJEPSE DUGME"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="64dp"
         android:onClick="showCategoryMenu"
-        android:layout_centerInParent="true"/>
+        android:text="KATEGORIJE" />
 
 
     <ListView

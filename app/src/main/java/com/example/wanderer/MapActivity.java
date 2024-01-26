@@ -44,6 +44,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         fusedClient = LocationServices.getFusedLocationProviderClient(this);
         getLocation();
         getLocation();
+        getLocation();
     }
 
     public void getLocation() {
@@ -54,6 +55,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             return;
         } else {
             Log.d("55","Tu sam");
+            //LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+            //Log.d("Moja lokacija 78",latLng.latitude+" "+latLng.longitude);
             Toast.makeText(this,"You woun't see your position in corelation to other locations", Toast.LENGTH_SHORT);
         }
 
@@ -66,6 +69,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                     SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
                     assert supportMapFragment != null;
                     supportMapFragment.getMapAsync(MapActivity.this);
+                    Log.d("71",myLocation.getLatitude()+" "+myLocation.getLongitude());
                 }
             }
         });

@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.content.SharedPreferences;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -17,25 +21,66 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        SharedPreferences sharedPreferences = getSharedPreferences("AppSettingsPref", MODE_PRIVATE);
+        List<String> opcine = new ArrayList<>();
+        for(Opcina opcina : SplashScreen.lista_opcina) {
+            opcine.add(opcina.ime_opcine);
+        }
+        List<String> gradovi = new ArrayList<>();
+        for(Grad grad : SplashScreen.lista_gradova) {
+            gradovi.add(grad.ime_grada);
+        }
 
         // Dropdown za gradove
         Spinner gradoviSpinner = findViewById(R.id.gradoviSpinner);
-        ArrayAdapter<CharSequence> gradoviAdapter = ArrayAdapter.createFromResource(this,
-                R.array.gradovi_array, android.R.layout.simple_spinner_item);
-                //SplashScreen.id_grada = ;
+        ArrayAdapter<String> gradoviAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, gradovi);
         gradoviAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gradoviSpinner.setAdapter(gradoviAdapter);
+        int mojGrad = sharedPreferences.getInt("mojGrad",0);
+        gradoviSpinner.setSelection(mojGrad);
+        MainActivity.mojGrad = (String) gradoviSpinner.getSelectedItem();
+
+        gradoviSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("mojGrad", position);
+                editor.apply();
+                MainActivity.mojGrad = (String) gradoviSpinner.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         // Dropdown za opstine
         Spinner opstineSpinner = findViewById(R.id.opstineSpinner);
-        ArrayAdapter<CharSequence> opstineAdapter = ArrayAdapter.createFromResource(this,
-                R.array.opstine_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> opstineAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, opcine);
         opstineAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         opstineSpinner.setAdapter(opstineAdapter);
+        int mojaOpstina = sharedPreferences.getInt("mojaOpstina",0);
+        opstineSpinner.setSelection(mojaOpstina);
+        MainActivity.mojaOpcina = (String) opstineSpinner.getSelectedItem();
+        opstineSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Save the selected position to SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("mojaOpstina", position);
+                editor.apply();
+                MainActivity.mojaOpcina = (String) opstineSpinner.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         // Dark mode switch
         Switch darkModeSwitch = findViewById(R.id.switch_dark_mode);
-        SharedPreferences sharedPreferences = getSharedPreferences("AppSettingsPref", MODE_PRIVATE);
         boolean isDarkModeOn = sharedPreferences.getBoolean("IsDarkModeOn", false);
         darkModeSwitch.setChecked(isDarkModeOn);
 
