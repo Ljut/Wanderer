@@ -40,7 +40,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener, LocationListener {
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private List<String> sugestije;
     private List<Znamenitost> znamenitosti;
-
+    Map<String, LatLng> mapZnamenitosti;
     private SearchView searchView;
 
     @Override
@@ -90,8 +92,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         thread.start();*/
 
         sugestije = new ArrayList<>();
+        mapZnamenitosti = new HashMap<>();
         for(int i=0;i<SplashScreen.lista_znamenitosti.size();i++) {
             sugestije.add(SplashScreen.lista_znamenitosti.get(i).ime_znamenitosti);
+            mapZnamenitosti.put(SplashScreen.lista_znamenitosti.get(i).ime_znamenitosti,new LatLng(SplashScreen.lista_znamenitosti.get(i).latitude,SplashScreen.lista_znamenitosti.get(i).longitude));
         }
 
         listaSugestija = findViewById(R.id.lista_sugestija);
@@ -150,8 +154,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         this.gMap = googleMap;
         LatLng sarajevo = new LatLng(43.8486, 18.3564);
-        this.gMap.addMarker(new MarkerOptions().position(sarajevo).title("Dobrodošli u Sarajevo"));
-        this.gMap.moveCamera(CameraUpdateFactory.newLatLng(sarajevo));
+        //this.gMap.addMarker(new MarkerOptions().position(sarajevo).title("Dobrodošli u Sarajevo"));
+        //this.gMap.addMarker(new MarkerOptions().position(new LatLng(43.8483,18.3567)).title("Dobrodošli Negdje"));
+        for(Znamenitost znamenitost : SplashScreen.lista_znamenitosti) {
+            this.gMap.addMarker(new MarkerOptions().position(new LatLng(znamenitost.latitude,znamenitost.longitude)).title(znamenitost.ime_znamenitosti));
+        }
+        //this.gMap.animateCamera(CameraUpdateFactory.newLatLng(sarajevo));
+        //this.gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sarajevo,10));
+        //this.gMap.moveCamera(CameraUpdateFactory.newLatLng(sarajevo));
+        this.gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sarajevo, 11));
     }
 
     public void showPopup(View v) {
@@ -173,8 +184,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public boolean onClose() {
                 Log.d("180", "Closed");
-                View background = findViewById(R.id.lista_sugestija_background);
-                background.setVisibility(View.GONE);
+                //View background = findViewById(R.id.lista_sugestija_background);
+                //background.setVisibility(View.GONE);
                 ListView listView = findViewById(R.id.lista_sugestija);
                 listView.setVisibility(View.GONE);
                 return false;
@@ -182,30 +193,49 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         searchView.onActionViewCollapsed();
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(Znamenitost znamenitost : SplashScreen.lista_znamenitosti) {
+                    gMap.addMarker(new MarkerOptions().position(new LatLng(znamenitost.latitude,znamenitost.longitude)).title(znamenitost.ime_znamenitosti));
+                }
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //OpcinaDao dao = AppDatabase.database.opcinaDao();
+
                 String query = searchView.getQuery().toString();
-                View background = findViewById(R.id.lista_sugestija_background);
                 ListView listView = findViewById(R.id.lista_sugestija);
 
                 if(query.isEmpty()){
-                    background.setVisibility(View.GONE);
                     listView.setVisibility(View.GONE);
+
                 }else{
-                    background.setVisibility(View.VISIBLE);
+                    gMap.clear();
                     listView.setVisibility(View.VISIBLE);
                 }
 
 
 
                 sugestijeAdapter.getFilter().filter(newText);
+                for (String item : sugestije) {
+                    if (item.toLowerCase().contains(query.toLowerCase())) {
+                        //filteredList.add(item);
+                        gMap.addMarker(new MarkerOptions().position(mapZnamenitosti.get(item)).title(item));
+                    }
+                }
+                /*sugestijeAdapter.
+                SplashScreen.lista_znamenitosti.
+                for(String t : sugestijeAdapter){
+
+                }*/
                 return false;
             }
         });

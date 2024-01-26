@@ -27,17 +27,19 @@
 
 
 
-    <View
+    <!--<View
         android:id="@+id/lista_sugestija_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:background="@drawable/rectangle"/>
+        android:background="@drawable/rectangle"
+        /> -->
     <ListView
         android:id="@+id/lista_sugestija"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:visibility="gone"
+        android:background="@drawable/rectangle"
         />
 
     <Spinner
