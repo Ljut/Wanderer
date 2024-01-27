@@ -428,6 +428,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void showCategoryMenu(View v) {
         PopupMenu categoryPopup = new PopupMenu(this, v);
         categoryPopup.setOnMenuItemClickListener(item -> {
+            if(item.getItemId()==R.id.menu_znamenitosti) {
+                kategorija="ZNAMENITOSTI";
+                sugestije.clear();
+                for(int i=0;i<SplashScreen.lista_znamenitosti.size();i++) {
+                    sugestije.add(SplashScreen.lista_znamenitosti.get(i).ime_znamenitosti);
+                }
+                gMap.clear();
+                for(String znamenitost : sugestije)
+                    setMarkeraZnamenitosti.add(gMap.addMarker(new MarkerOptions().position(mapZnamenitosti.get(znamenitost)).title(znamenitost)));
+                return true;
+            } else if (item.getItemId()==R.id.menu_opstine) {
+                kategorija="OPCINE";
+                sugestije.clear();
+                Log.d("398",kategorija);
+                for(int i=0;i<SplashScreen.lista_opcina.size();i++) {
+                    sugestije.add(SplashScreen.lista_opcina.get(i).ime_opcine);
+                }
+                gMap.clear();
+                for(String opcina : sugestije)
+                    setMarkeraOpcina.add(gMap.addMarker(new MarkerOptions().position(mapOpcina.get(opcina)).title(opcina)));
+                return true;
+            }
             switch (item.getItemId()) {
                 case R.id.menu_policija:
                     //return true;
@@ -441,7 +463,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     //showInformationDialog(item.getTitle().toString());
                     //return true;
                     showInformationDialog(item.getTitle().toString());
-                case R.id.menu_znamenitosti:
+                //case R.id.menu_znamenitosti:
                     /*kategorija="ZNAMENITOSTI";
                     sugestije.clear();
                     for(int i=0;i<SplashScreen.lista_znamenitosti.size();i++) {
@@ -451,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     for(String znamenitost : sugestije)
                         setMarkeraZnamenitosti.add(gMap.addMarker(new MarkerOptions().position(mapZnamenitosti.get(znamenitost)).title(znamenitost)));
                     //return true;*/
-                case R.id.menu_opstine:
+                //case R.id.menu_opstine:
                     /*kategorija="OPCINE";
                     sugestije.clear();
                     Log.d("398",kategorija);
