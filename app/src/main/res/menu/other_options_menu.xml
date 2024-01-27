@@ -10,11 +10,10 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         android:title="TODO" />
 
-    <item android:id="@+id/settings"
-        android:icon="@drawable/baseline_more_vert_24"
-        android:title="Settings"
-        app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/settings"
+        android:title="Settings" />
 
     <item android:id="@+id/exit"
         android:title="Exit"

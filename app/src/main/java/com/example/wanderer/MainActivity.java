@@ -499,4 +499,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         InformationDialogFragment dialog = InformationDialogFragment.newInstance(category);
         dialog.show(getSupportFragmentManager(), "InformationDialog");
     }
+
+    // ovo je jedino novo u mainu, dodaj i dugmici ce raditi gore
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settings:
+                startSettings();
+                return true;
+            case R.id.exit:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
