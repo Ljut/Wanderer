@@ -83,19 +83,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        // Dark mode switch
-        Switch darkModeSwitch = findViewById(R.id.switch_dark_mode);
-        boolean isDarkModeOn = sharedPreferences.getBoolean("IsDarkModeOn", false);
-        darkModeSwitch.setChecked(isDarkModeOn);
-
-        darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("IsDarkModeOn", isChecked);
-            editor.apply();
-
-            // Dodaj logiku za dark mode kad uradimo UI i Ajlin design !!!!!!!!!!
-        });
-
         // Exit dugme za settings
         Button exitSettingsButton = findViewById(R.id.button_exit_settings);
         exitSettingsButton.setOnClickListener(v -> startMain());

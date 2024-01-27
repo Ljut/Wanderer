@@ -17,6 +17,7 @@ public class SplashScreen extends AppCompatActivity {
     public static List<Grad> lista_gradova;
     public static List<Opcina> lista_opcina;
     public static List<Taksi> lista_taksija;
+    public static List<Taksi> taksijiUGradu;
     public static int id_grada=0;
     public static Grad mojGrad;
     public static Opcina mojaOpcina;
@@ -61,19 +62,24 @@ public class SplashScreen extends AppCompatActivity {
         lista_opcina = opcinaDao.getAll();
         lista_taksija = taksiDao.getAll();
 
+
+
         SharedPreferences sharedPreferences = getSharedPreferences("AppSettingsPref", MODE_PRIVATE);
         int grad = sharedPreferences.getInt("mojGrad",0);
         int opcina = sharedPreferences.getInt("mojaOpstina",0);
         mojGrad=SplashScreen.lista_gradova.get(grad);
         mojaOpcina=SplashScreen.lista_opcina.get(opcina);
 
+        taksijiUGradu = taksiDao.loadAllFromCity(mojGrad.id);
+
+        //Provjera da je sve učitano
         Log.d("znamenitosti u bazi","broj znamenitosti u bazi je 40/"+lista_znamenitosti.size());
         Log.d("opcine u bazi","broj opcina u bazi je 5/"+lista_opcina.size());
         Log.d("gradovi u bazi","broj gradova u bazi je 1/"+lista_gradova.size());
         Log.d("taksiji u bazi","broj taksija u bazi je 6/"+lista_taksija.size());
-        for(Znamenitost znamenitost : lista_znamenitosti) {
+        /*for(Znamenitost znamenitost : lista_znamenitosti) {
             Log.d("lista_znamnitosti",znamenitost.ime_znamenitosti);
-        }
+        }*/
         startApp();
     }
 

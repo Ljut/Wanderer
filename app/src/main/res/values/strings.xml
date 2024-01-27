@@ -4,7 +4,7 @@
     <string name="opcina">opcina</string>
 
     <!-- AKO BUDEMO DODAVALI JOS GRADOVA TREBAMO I JOS OPSTINA -->
-    <string-array name="gradovi_array">
+    <!--<string-array name="gradovi_array">
         <item>Sarajevo</item>
     </string-array>
     <string-array name="opstine_array">
@@ -13,5 +13,5 @@
         <item>Novo Sarajevo</item>
         <item>Novi Grad</item>
         <item>Ilidža</item>
-    </string-array>
+    </string-array>-->
 </resources>

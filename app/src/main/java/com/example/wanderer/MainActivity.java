@@ -4,13 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.room.Room;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,31 +18,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
-
-//import com.example.wanderer.jsondb.JsonDB;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,9 +44,8 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener, LocationListener {
 
-    //SharedPreferences sharedPreferences = getSharedPreferences("AppSettingsPref", MODE_PRIVATE);
 
-    public static List<Taksi> taksijiUGradu;
+
 
     ListView listaSugestija;
     ArrayAdapter<String> sugestijeAdapter;
@@ -83,36 +69,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //setMojGradIOpcina();
-
-        /*Runnable runnable = new Runnable(){
-            public void run() {
-                TaksiDao taksiDao = AppDatabase.database.taksiDao();
-                taksijiUGradu = taksiDao.loadAllFromCity(MainActivity.mojGrad.id);
-            }
-        };
-    Thread thread = new Thread(runnable);
-        thread.start();*/
-            //public void run() {
-        /*Runnable runnable = new Runnable(){
-            public void run() {
-                //some code here
-                gradDao = AppDatabase.database.gradDao();
-                opcinaDao = AppDatabase.database.opcinaDao();
-                znamenitostDao = AppDatabase.database.znamenitostDao();
-                znamenitosti = new ArrayList<Znamenitost>();
-                System.out.println("query znamenitostDao.getAll()78");
-                znamenitosti = znamenitostDao.getAll();
-                Log.d("znamenitosti u bazi79","broj znamenitosti u bazi je 40/"+znamenitosti.size());
-                for(int i=0;i< znamenitosti.size();i++) {
-                    sugestije.add(znamenitosti.get(i).ime_znamenitosti);
-                    Log.d("test83",znamenitosti.get(i).ime_znamenitosti);
-                }
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();*/
 
         sugestije = new ArrayList<>();
         mapZnamenitosti = new HashMap<>();
@@ -151,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Imam li dozvolu da koristim lokaciju
         //if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)){}
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        getLocation();
+        //fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        //getLocation();
 
 
 
@@ -180,12 +136,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                 }
-                /*if (marker != null) {
-                    marker.showInfoWindow();
-                }*/
                 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lokacija, 16));
-                //SearchView searchView = findViewById(R.id.search);
-                //searchView.setQuery("", false);
+
                 searchView.setIconified(true);
                 marker.showInfoWindow();
                 if (marker != null) {
@@ -194,31 +146,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        /*searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                Log.d("180", "Closed");
-                View background = findViewById(R.id.lista_sugestija_background);
-                background.setVisibility(View.GONE);
-                ListView listView = findViewById(R.id.lista_sugestija);
-                listView.setVisibility(View.GONE);
-                return false;
-            }
-        });*/
 
-
-    }
-
-    /*private void setMojGradIOpcina() {
-        SharedPreferences sharedPreferences = getSharedPreferences("AppSettingsPref", MODE_PRIVATE);
-        int grad = sharedPreferences.getInt("mojGrad",0);
-        int opcina = sharedPreferences.getInt("mojaOpcina",0);
-        mojGrad=SplashScreen.lista_gradova.get(grad);
-        mojaOpcina = SplashScreen.lista_opcina.get(opcina);
-    }*/
-
-    private boolean checkLocationPermission() {
-        return true;
     }
 
     @Override
@@ -233,18 +161,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for(Znamenitost znamenitost : SplashScreen.lista_znamenitosti) {
             setMarkeraZnamenitosti.add(this.gMap.addMarker(new MarkerOptions().position(new LatLng(znamenitost.latitude,znamenitost.longitude)).title(znamenitost.ime_znamenitosti)));
         }
-        //this.gMap.animateCamera(CameraUpdateFactory.newLatLng(sarajevo));
-        //this.gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sarajevo,10));
-        //this.gMap.moveCamera(CameraUpdateFactory.newLatLng(sarajevo));
+
         this.gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sarajevo, 11));
     }
 
-    public void showPopup(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
-        popup.setOnMenuItemClickListener(this);
-        popup.inflate(R.menu.other_options_menu);
-        popup.show();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -252,14 +172,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MenuItem menuItem = menu.findItem(R.id.search);
         searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Koja vas lokacija zanima");
-        /**/
+
 
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 Log.d("180", "Closed");
-                //View background = findViewById(R.id.lista_sugestija_background);
-                //background.setVisibility(View.GONE);
+
                 ListView listView = findViewById(R.id.lista_sugestija);
                 listView.setVisibility(View.GONE);
                 return false;
@@ -373,14 +292,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         } else {
             Log.d("55","Tu sam");
-            /*MarkerOptions markerOptions = new MarkerOptions()
-                    .position(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()))
-                    .title("Marker Title")
-                    .snippet("Marker Snippet")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-            gMap.addMarker(markerOptions);*/
-            //LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
-            //Log.d("Moja lokacija 78",latLng.latitude+" "+latLng.longitude);
+
             Toast.makeText(this,"You woun't see your position in corelation to other locations", Toast.LENGTH_SHORT);
         }
 
@@ -456,34 +368,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 case R.id.menu_vatrogasci:
                     //return true;
                 case R.id.menu_hitna:
-                    //Log.d("Hitna","Hitna\n"+SplashScreen.lista_gradova.get(SplashScreen.id_grada).broj_hitne);
-                    //return true;
+
                 case R.id.menu_taxi:
-                    //Log.d("jesam li usao iza hitne","da");
-                    //showInformationDialog(item.getTitle().toString());
-                    //return true;
+
                     showInformationDialog(item.getTitle().toString());
-                //case R.id.menu_znamenitosti:
-                    /*kategorija="ZNAMENITOSTI";
-                    sugestije.clear();
-                    for(int i=0;i<SplashScreen.lista_znamenitosti.size();i++) {
-                        sugestije.add(SplashScreen.lista_znamenitosti.get(i).ime_znamenitosti);
-                    }
-                    gMap.clear();
-                    for(String znamenitost : sugestije)
-                        setMarkeraZnamenitosti.add(gMap.addMarker(new MarkerOptions().position(mapZnamenitosti.get(znamenitost)).title(znamenitost)));
-                    //return true;*/
-                //case R.id.menu_opstine:
-                    /*kategorija="OPCINE";
-                    sugestije.clear();
-                    Log.d("398",kategorija);
-                    for(int i=0;i<SplashScreen.lista_opcina.size();i++) {
-                        sugestije.add(SplashScreen.lista_opcina.get(i).ime_opcine);
-                    }
-                    gMap.clear();
-                    for(String opcina : sugestije)
-                        setMarkeraOpcina.add(gMap.addMarker(new MarkerOptions().position(mapOpcina.get(opcina)).title(opcina)));
-                    //return true;*/
 
                     return true;
                 // nisam se peglao sa ostalim kategorijama, dajem ti cast

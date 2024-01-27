@@ -49,7 +49,7 @@ public class InformationDialogFragment extends DialogFragment {
             // igraj se jos ako hoces
             case "Taxi":
                 text += "Brojevi taksija su:\n\n";
-                for(Taksi taksi : MainActivity.taksijiUGradu) {
+                for(Taksi taksi : SplashScreen.taksijiUGradu) {
                     text += taksi.ime_taksija + ": " + taksi.broj_telefona + "\n";
                 }
                 return text;
