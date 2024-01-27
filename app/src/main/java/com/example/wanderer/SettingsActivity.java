@@ -38,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
         gradoviSpinner.setAdapter(gradoviAdapter);
         int mojGrad = sharedPreferences.getInt("mojGrad",0);
         gradoviSpinner.setSelection(mojGrad);
-        MainActivity.mojGrad = (String) gradoviSpinner.getSelectedItem();
+        //MainActivity.mojGrad.ime_grada = (String) gradoviSpinner.getSelectedItem();
 
         gradoviSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("mojGrad", position);
                 editor.apply();
-                MainActivity.mojGrad = (String) gradoviSpinner.getSelectedItem();
+                //MainActivity.mojGrad = (String) gradoviSpinner.getSelectedItem();
             }
 
             @Override
@@ -62,7 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
         opstineSpinner.setAdapter(opstineAdapter);
         int mojaOpstina = sharedPreferences.getInt("mojaOpstina",0);
         opstineSpinner.setSelection(mojaOpstina);
-        MainActivity.mojaOpcina = (String) opstineSpinner.getSelectedItem();
+        //MainActivity.mojaOpcina = (String) opstineSpinner.getSelectedItem();
         opstineSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -70,7 +70,11 @@ public class SettingsActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("mojaOpstina", position);
                 editor.apply();
-                MainActivity.mojaOpcina = (String) opstineSpinner.getSelectedItem();
+                /*for(int i=0;i<SplashScreen.lista_opcina.size();i++) {
+                    if(SplashScreen.lista_opcina.get(i).ime_opcine==)
+                }*/
+                SplashScreen.mojaOpcina = SplashScreen.lista_opcina.get(position);
+                //MainActivity.mojaOpcina = (String) opstineSpinner.getSelectedItem();
             }
 
             @Override

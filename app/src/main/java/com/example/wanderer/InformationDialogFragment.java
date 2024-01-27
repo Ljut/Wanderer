@@ -1,9 +1,14 @@
 package com.example.wanderer;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import java.util.List;
 
 public class InformationDialogFragment extends DialogFragment {
 
@@ -28,12 +33,26 @@ public class InformationDialogFragment extends DialogFragment {
     }
 
     private String getCategoryInformation(String category) {
+        String text = "";
+        //SharedPreferences sharedPreferences = getSharedPreferences("AppSettingsPref", MODE_PRIVATE);
         switch (category) {
             case "Policija":
-                return "reci dvanaest";
+                text += "Broj centralne policije je " + SplashScreen.mojGrad.broj_centralne_policije + "\n";
+                text += "Broj policije " + SplashScreen.mojaOpcina.ime_opcine + " je " + SplashScreen.mojaOpcina.broj_policije + "";
+                return text;
             case "Vatrogasci":
-                return "danas je lijep dan";
+                text += "Broj vatrogasaca je "+SplashScreen.mojGrad.broj_vatrogasaca;
+                return text;
+            case "Hitna":
+                text += "Broj hitne pomoći je "+SplashScreen.mojGrad.broj_hitne;
+                return text;
             // igraj se jos ako hoces
+            case "Taxi":
+                text += "Brojevi taksija su:\n\n";
+                for(Taksi taksi : MainActivity.taksijiUGradu) {
+                    text += taksi.ime_taksija + ": " + taksi.broj_telefona + "\n";
+                }
+                return text;
             default:
                 return "bilo mi mrsko dalje";
         }

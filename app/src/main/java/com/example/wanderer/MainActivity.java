@@ -10,6 +10,7 @@ import androidx.room.Room;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -56,8 +57,9 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener, LocationListener {
 
-    public static String mojGrad=SplashScreen.lista_gradova.get(0).ime_grada;
-    public static String mojaOpcina=SplashScreen.lista_opcina.get(0).ime_opcine;
+    //SharedPreferences sharedPreferences = getSharedPreferences("AppSettingsPref", MODE_PRIVATE);
+
+    public static List<Taksi> taksijiUGradu;
 
     ListView listaSugestija;
     ArrayAdapter<String> sugestijeAdapter;
@@ -82,8 +84,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //setMojGradIOpcina();
 
-
+        /*Runnable runnable = new Runnable(){
+            public void run() {
+                TaksiDao taksiDao = AppDatabase.database.taksiDao();
+                taksijiUGradu = taksiDao.loadAllFromCity(MainActivity.mojGrad.id);
+            }
+        };
+    Thread thread = new Thread(runnable);
+        thread.start();*/
+            //public void run() {
         /*Runnable runnable = new Runnable(){
             public void run() {
                 //some code here
@@ -197,6 +208,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     }
+
+    /*private void setMojGradIOpcina() {
+        SharedPreferences sharedPreferences = getSharedPreferences("AppSettingsPref", MODE_PRIVATE);
+        int grad = sharedPreferences.getInt("mojGrad",0);
+        int opcina = sharedPreferences.getInt("mojaOpcina",0);
+        mojGrad=SplashScreen.lista_gradova.get(grad);
+        mojaOpcina = SplashScreen.lista_opcina.get(opcina);
+    }*/
 
     private boolean checkLocationPermission() {
         return true;
@@ -411,18 +430,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         categoryPopup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_policija:
-                    return true;
+                    //return true;
                 case R.id.menu_vatrogasci:
-                    return true;
+                    //return true;
                 case R.id.menu_hitna:
-                    Log.d("Hitna","Hitna\n"+SplashScreen.lista_gradova.get(SplashScreen.id_grada).broj_hitne);
-                    return true;
+                    //Log.d("Hitna","Hitna\n"+SplashScreen.lista_gradova.get(SplashScreen.id_grada).broj_hitne);
+                    //return true;
                 case R.id.menu_taxi:
-                    Log.d("jesam li usao iza hitne","da");
+                    //Log.d("jesam li usao iza hitne","da");
+                    //showInformationDialog(item.getTitle().toString());
+                    //return true;
                     showInformationDialog(item.getTitle().toString());
-                    return true;
                 case R.id.menu_znamenitosti:
-                    kategorija="ZNAMENITOSTI";
+                    /*kategorija="ZNAMENITOSTI";
                     sugestije.clear();
                     for(int i=0;i<SplashScreen.lista_znamenitosti.size();i++) {
                         sugestije.add(SplashScreen.lista_znamenitosti.get(i).ime_znamenitosti);
@@ -430,9 +450,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     gMap.clear();
                     for(String znamenitost : sugestije)
                         setMarkeraZnamenitosti.add(gMap.addMarker(new MarkerOptions().position(mapZnamenitosti.get(znamenitost)).title(znamenitost)));
-                    return true;
+                    //return true;*/
                 case R.id.menu_opstine:
-                    kategorija="OPCINE";
+                    /*kategorija="OPCINE";
                     sugestije.clear();
                     Log.d("398",kategorija);
                     for(int i=0;i<SplashScreen.lista_opcina.size();i++) {
@@ -441,6 +461,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     gMap.clear();
                     for(String opcina : sugestije)
                         setMarkeraOpcina.add(gMap.addMarker(new MarkerOptions().position(mapOpcina.get(opcina)).title(opcina)));
+                    //return true;*/
+
                     return true;
                 // nisam se peglao sa ostalim kategorijama, dajem ti cast
                 default:

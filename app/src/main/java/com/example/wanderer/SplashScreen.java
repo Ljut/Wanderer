@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,6 +18,8 @@ public class SplashScreen extends AppCompatActivity {
     public static List<Opcina> lista_opcina;
     public static List<Taksi> lista_taksija;
     public static int id_grada=0;
+    public static Grad mojGrad;
+    public static Opcina mojaOpcina;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +60,12 @@ public class SplashScreen extends AppCompatActivity {
         lista_gradova = gradDao.getAll();
         lista_opcina = opcinaDao.getAll();
         lista_taksija = taksiDao.getAll();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("AppSettingsPref", MODE_PRIVATE);
+        int grad = sharedPreferences.getInt("mojGrad",0);
+        int opcina = sharedPreferences.getInt("mojaOpstina",0);
+        mojGrad=SplashScreen.lista_gradova.get(grad);
+        mojaOpcina=SplashScreen.lista_opcina.get(opcina);
 
         Log.d("znamenitosti u bazi","broj znamenitosti u bazi je 40/"+lista_znamenitosti.size());
         Log.d("opcine u bazi","broj opcina u bazi je 5/"+lista_opcina.size());

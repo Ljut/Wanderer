@@ -15,6 +15,8 @@ public interface TaksiDao {
     @Query("SELECT * FROM Taksi WHERE id IN (:taksiIds)")
     List<Taksi> loadAllByIds(int[] taksiIds);
 
+    @Query("SELECT * FROM Taksi WHERE id_grada == :id_grada")
+    List<Taksi> loadAllFromCity(int id_grada);
     /*@Query("SELECT * FROM Grad WHERE ime_grada LIKE :first AND " +
             "last_name LIKE :last LIMIT 1")
     Grad findByName(String first, String last);*/
