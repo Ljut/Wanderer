@@ -155,14 +155,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setMarkeraZnamenitosti = new HashSet<>();
         setMarkeraOpcina = new HashSet<>();
         this.gMap = googleMap;
-        LatLng sarajevo = new LatLng(43.8486, 18.3564);
+        //LatLng sarajevo = new LatLng(43.8486, 18.3564);
+        LatLng grad  = new LatLng(SplashScreen.mojGrad.latitude, SplashScreen.mojGrad.longitude);
         //this.gMap.addMarker(new MarkerOptions().position(sarajevo).title("Dobrodošli u Sarajevo"));
         //this.gMap.addMarker(new MarkerOptions().position(new LatLng(43.8483,18.3567)).title("Dobrodošli Negdje"));
         for(Znamenitost znamenitost : SplashScreen.lista_znamenitosti) {
             setMarkeraZnamenitosti.add(this.gMap.addMarker(new MarkerOptions().position(new LatLng(znamenitost.latitude,znamenitost.longitude)).title(znamenitost.ime_znamenitosti)));
         }
 
-        this.gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sarajevo, 11));
+        this.gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(grad, 11));
     }
 
 
